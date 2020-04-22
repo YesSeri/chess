@@ -39,7 +39,7 @@ class Board
       finish_row = 6
       p 'col 0'
       finish_col = 0
-      #break if legal_move?(@positions[row][col], @positions[row][col]) 
+      break if legal_move?(@positions[row][col], @positions[row][col], @current_player) 
       break
     end
     @positions[finish_row][finish_col] = @positions[col][row]

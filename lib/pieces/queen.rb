@@ -1,6 +1,8 @@
 require 'pry'
 require_relative 'piece.rb'
-class Rook < Piece
+require_relative 'rules.rb'
+include Rules
+class Queen < Piece
   attr_accessor :moveset, :symbol
   def initialize(color)
     super(color)
@@ -8,8 +10,12 @@ class Rook < Piece
       [0, 1],
       [0, -1],
       [1, 0],
-      [-1, 0]
+      [-1, 0],
+      [1, 1],
+      [-1, -1],
+      [1, -1],
+      [-1, 1]
     ]
-    @symbol = color == :white ? 'WR' : 'BR'
+    @symbol = color == :white ? 'WQ' : 'BQ'
   end
 end

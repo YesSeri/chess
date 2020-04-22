@@ -1,15 +1,16 @@
 require 'pry'
 require_relative 'piece.rb'
-class Rook < Piece
+class Bishop < Piece
   attr_accessor :moveset, :symbol
   def initialize(color)
     super(color)
     @moveset = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0]
+      [1, 1],
+      [-1, -1],
+      [1, -1],
+      [-1, 1]
     ]
     @symbol = color == :white ? 'WR' : 'BR'
+
   end
 end
