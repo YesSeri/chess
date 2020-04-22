@@ -5,7 +5,14 @@ require_relative 'knight'
 require_relative 'rook'
 require_relative 'queen'
 require_relative 'king'
+EMPTY_SQUARE = "' "
 module Rules
+  def legal_move?(board, start_square, finish_square)
+    binding.pry
+    return false if start_square == EMPTY_SQUARE 
+    return false if start_square.color != board.current_player.color
+    return false if finish_square.color == board.current_player.color
+  end
   #Used for queen, bishop and rook. Returns all moves in bound. Doesnt notice if piece is in its way.
   def legal_moves_straight_lines(piece, position)
     row = position[0]
@@ -28,6 +35,4 @@ module Rules
     legal_moves
   end
 end
-include Rules
-rook = Rook.new(:white)
-print legal_moves_straight_lines(rook, [3,3])
+

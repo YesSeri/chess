@@ -3,8 +3,10 @@ require 'pry-byebug'
 require_relative 'pieces/rook'
 require_relative 'string'
 require_relative 'player'
-
+require_relative 'pieces/rules'
+include Rules
 class Board
+  attr_reader :current_player, :positions
   EMPTY_SQUARE = "' "
   
   def initialize
@@ -35,18 +37,16 @@ class Board
       row = 0 
       p 'col 0'
       col = 0 
+      start_square = @positions[row][col]
       p 'to row 6'
       finish_row = 6
       p 'col 0'
       finish_col = 0
-      break if legal_move?(@positions[row][col], @positions[row][col], @current_player) 
-      break
-    end
+      finish_square  = @positions[finish_row][finish_col]
+      break if legal_move?(self, start_square, finish_square) 
+  end
     @positions[finish_row][finish_col] = @positions[col][row]
     @positions[col][row] = EMPTY_SQUARE
-  end
-  def legal_move?(start_square, finish_square)
-    start_legal = start_square != EMPTY_SQUARE && start_square.color == @current_player.color 
   end
   def to_s
     @positions.each do |row| 
@@ -58,9 +58,4 @@ class Board
   end
 end
 board = Board.new
-board.to_s
-rook = Rook.new(:white)
-print Rook.ancestors
-print "abc".symbol
 board.make_move
-board.to_s

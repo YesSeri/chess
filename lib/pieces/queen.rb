@@ -1,7 +1,5 @@
 require 'pry'
 require_relative 'piece.rb'
-require_relative 'rules.rb'
-include Rules
 class Queen < Piece
   attr_accessor :moveset, :symbol
   def initialize(color)
