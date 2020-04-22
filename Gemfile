@@ -7,4 +7,4 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 # gem "rails"
 gem 'pry', '~> 0.12.2'
 gem 'pry-byebug'
-
+gem 'rspec'
