@@ -1,6 +1,11 @@
 require 'pry'
 require 'pry-byebug'
 require_relative 'pieces/rook'
+
+require_relative 'pieces/knight.rb'
+require_relative 'pieces/bishop.rb'
+require_relative 'pieces/queen.rb'
+require_relative 'pieces/king'
 require_relative 'string'
 require_relative 'player'
 require_relative 'rules'
@@ -14,17 +19,31 @@ class Board
     @black_player = Player.new(:black)
     @current_player = @white_player
     @positions = Array.new(8) { Array.new(8, EMPTY_SQUARE) }
-    @positions[0][0] = Rook.new(:black)
-    @positions[0][7] = Rook.new(:black)
-    @positions[7][0] = Rook.new(:white)
-    @positions[7][7] = Rook.new(:white)
+    add_back_rank
+    
   end
 
-  #Was used for to_s, but created String method symbol instead so I can use same for both pieces and strings. Maybe this one is unneccessary?
+  def add_back_rank #R0 K1 B2 Q3 $4 B5 K6 R7
+    @positions[0][0] = Rook.new(:black)
+    @positions[0][7] = Rook.new(:black)
+    @positions[0][1] = Knight.new(:black)
+    @positions[0][6] = Knight.new(:black)
+    @positions[0][2] = Bishop.new(:black)
+    @positions[0][5] = Bishop.new(:black)
+    @positions[0][3] = Queen.new(:black)
+    @positions[0][4] = King.new(:black)
+    @positions[7][0] = Rook.new(:white)
+    @positions[7][7] = Rook.new(:white)
+    @positions[7][1] = Knight.new(:white)
+    @positions[7][6] = Knight.new(:white)
+    @positions[7][2] = Bishop.new(:white)
+    @positions[7][5] = Bishop.new(:white)
+    @positions[7][3] = Queen.new(:white)
+    @positions[7][4] = King.new(:white)
+  end
+  def add_pawns
 
-  def contains_piece?(square)
-    return true if square.class.ancestors.include? Piece
-  end 
+  end
 
   def make_move
     p 'make move'
@@ -59,7 +78,6 @@ class Board
     end
   end
 end
-binding.pry
 board = Board.new
 puts
 board.to_s

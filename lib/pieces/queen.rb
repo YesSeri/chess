@@ -5,12 +5,12 @@ class Queen < Piece
   def initialize(color)
     super(color)
     @moveset = [
-      [0, 1],
+      [0,  1],
       [0, -1],
-      [1, 0],
+      [1,  0],
       [-1, 0],
-      [1, 1],
-      [-1, -1],
+      [1,  1],
+      [-1,-1],
       [1, -1],
       [-1, 1]
     ]
