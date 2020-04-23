@@ -59,5 +59,7 @@ class Board
     end
   end
 end
+binding.pry
 board = Board.new
-board.make_move
+puts
+board.to_s
