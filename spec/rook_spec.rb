@@ -1,8 +1,5 @@
-require 'board'
-require 'pieces/rook'
-
+require_relative '../lib/pieces/rook.rb'
 describe 'Rook' do
-  let(:board) { Board.new('Henrik', 'Alio') }
   let(:rook) { Rook.new('white', [0, 0]) }
 
   describe 'possible moves' do

@@ -1,7 +1,7 @@
 require 'board'
 require 'pieces/bishop'
 
-describe 'Bishop' do
+xdescribe 'Bishop' do
   let(:board) { Board.new('Henrik', 'Alio') }
   let(:bishop) { Bishop.new('white', [0, 0]) }
 
