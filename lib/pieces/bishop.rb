@@ -10,7 +10,6 @@ class Bishop < Piece
       [1, -1],
       [-1, 1]
     ]
-    @symbol = color == :white ? 'WR' : 'BR'
-
+    @symbol = color == :white ? 'WB' : 'BB'
   end
 end

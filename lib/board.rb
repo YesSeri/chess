@@ -3,7 +3,7 @@ require 'pry-byebug'
 require_relative 'pieces/rook'
 require_relative 'string'
 require_relative 'player'
-require_relative 'pieces/rules'
+require_relative 'rules'
 include Rules
 class Board
   attr_reader :current_player, :positions
@@ -37,13 +37,15 @@ class Board
       row = 0 
       p 'col 0'
       col = 0 
-      start_square = @positions[row][col]
+      start_square = [row, col]
+      p start_square
       p 'to row 6'
       finish_row = 6
       p 'col 0'
-      finish_col = 0
+      finish_col = [finish_row, finish_col]
       finish_square  = @positions[finish_row][finish_col]
-      break if legal_move?(self, start_square, finish_square) 
+      break if legal_move?(self, start_square, finish_square) #This is a module dedicated to finding legal moves 
+      break
   end
     @positions[finish_row][finish_col] = @positions[col][row]
     @positions[col][row] = EMPTY_SQUARE
