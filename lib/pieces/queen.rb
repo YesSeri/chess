@@ -14,6 +14,6 @@ class Queen < Piece
       [1, -1],
       [-1, 1]
     ]
-    @symbol = color == :white ? 'WQ' : 'BQ'
+    @symbol = color == :white ? 'WQ ' : 'BQ '
   end
 end

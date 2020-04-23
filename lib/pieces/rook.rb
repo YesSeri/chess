@@ -10,7 +10,7 @@ class Rook < Piece
       [1, 0],
       [-1, 0]
     ]
-    @symbol = color == :white ? 'WR' : 'BR'
+    @symbol = color == :white ? 'WR ' : 'BR '
     @has_moved = false
   end
 end

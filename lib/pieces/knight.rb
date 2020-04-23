@@ -15,6 +15,6 @@ class Knight < Piece
       [-1, 2],
       [-1,-2],
     ]
-    @symbol = color == :white ? 'WK' : 'BK'
+    @symbol = color == :white ? 'WK ' : 'BK '
   end
 end

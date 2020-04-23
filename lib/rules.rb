@@ -1,11 +1,7 @@
 require 'pry'
-#require_relative 'pieces/pawn'
-#require_relative 'pieces/bishop'
-#require_relative 'pieces/knight'
-#require_relative 'pieces/rook'
-#require_relative 'pieces/queen'
-#require_relative 'pieces/king'
-EMPTY_SQUARE ||= "' "
+require 'pry-byebug'
+require_relative 'pieces/pieces.rb'
+
 module Rules
   def legal_move?(board, start, finish) #For squares, arrays, first value is row second is column.
     return false if test_range(start, finish) == false

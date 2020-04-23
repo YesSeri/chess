@@ -7,7 +7,7 @@ class King < Piece
       [-1, -1], [-1, 0], [-1, 1],
       [ 0, -1],          [ 0, 1],
       [ 1, -1], [ 1, 0], [ 1, 1]]
-    @symbol = color == :white ? 'W$' : 'B$'
+    @symbol = color == :white ? 'W$ ' : 'B$ '
     @has_moved = false
   end
 end

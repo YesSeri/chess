@@ -1,18 +1,13 @@
 require 'pry'
 require 'pry-byebug'
-require_relative 'pieces/rook'
-
-require_relative 'pieces/knight.rb'
-require_relative 'pieces/bishop.rb'
-require_relative 'pieces/queen.rb'
-require_relative 'pieces/king'
+require_relative 'pieces/pieces.rb'
 require_relative 'string'
 require_relative 'player'
 require_relative 'rules'
 include Rules
 class Board
   attr_reader :current_player, :positions
-  EMPTY_SQUARE = "' "
+  EMPTY_SQUARE = ".  "
   
   def initialize
     @white_player = Player.new(:white)
@@ -42,28 +37,24 @@ class Board
     @positions[7][4] = King.new(:white)
   end
   def add_pawns
-
+    8.times do |i|
+      @positions[1][i] = Pawn.new(:black)
+    end
+    8.times do |i|
+      @positions[6][i] = Pawn.new(:white)
+    end
   end
 
   def make_move
-    p 'make move'
-    to = [0, 6]
     row, col, finish_row, finish_col = 0
 
     loop do 
       
-      p 'from row 0'
       row = 0 
-      p 'col 0'
       col = 0 
-      start_square = [row, col]
-      p start_square
-      p 'to row 6'
       finish_row = 6
-      p 'col 0'
-      finish_col = [finish_row, finish_col]
-      finish_square  = @positions[finish_row][finish_col]
-      break if legal_move?(self, start_square, finish_square) #This is a module dedicated to finding legal moves 
+      finish_col = 0 
+      #break if legal_move?(self, start_square, finish_square) #This is a module dedicated to finding legal moves 
       break
   end
     @positions[finish_row][finish_col] = @positions[col][row]
@@ -80,4 +71,6 @@ class Board
 end
 board = Board.new
 puts
+board.to_s
+board.make_move
 board.to_s
