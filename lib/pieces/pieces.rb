@@ -1,9 +1,17 @@
 # This class contains things that all pieces need. 
 
 class Piece
-  attr_accessor :color
+  attr_accessor :color, :symbol
   def initialize(color)
     @color = color
+  end
+end
+
+class Empty_Square
+  attr_accessor :color, :symbol
+  def initialize
+    @color = nil
+    @symbol = '.. '
   end
 end
 
