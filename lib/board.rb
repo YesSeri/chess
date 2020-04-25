@@ -36,6 +36,7 @@ class Board
     @positions[7][3] = Queen. new(@white_player.color)
     @positions[7][4] = King.  new(@white_player.color)
   end
+
   def add_pawns
     8.times do |i|
       @positions[1][i] = Pawn.new(:black)
@@ -45,31 +46,37 @@ class Board
     end
   end
 
-  def make_move
-    row, col, finish_row, finish_col = 0
+  def game_loop
+    loop do
+      start_square, finish_square = get_legal_move
+      set_new_position(start_square, finish_square)
+      @current_player = @current_player == @white_player ? @black_player : @white_player
+    end
+  end
+
+  def get_legal_move
     start, finish = [], []
-
     loop do 
-      puts
-      p "start row"
-      row = 7
-      p "start col"
-      col = 0
-      start.push(row, col) 
-      p start
-      p "finish row"
-      finish_row = 0
-      p "finish col"
-      finish_col = 0 
-      finish.push(finish_row, finish_col) 
-      p finish
+      to_s
+      start, finish = get_input
       break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
+    end
+    return start, finish
   end
-    set_new_position(start, finish)
-  end
-  def set_new_position(start, finish)
+  
+  def get_input
+    print "\nstart row"
+    row = gets.chomp.to_i
+    p "start col"
+    col = gets.chomp.to_i
+    p "finish row"
+    finish_row = gets.chomp.to_i
+    p "finish col"
+    finish_col = gets.chomp.to_i
+    return [row, col], [finish_row, finish_col]
+  end 
 
-    binding.pry
+  def set_new_position(start, finish)
     if !@positions[finish[0]][finish[1]].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
       @captured_pieces << @positions[finish[0]][finish[1]] 
       @positions[finish[0]][finish[1]] = @positions[start[0]][start[1]]
@@ -95,7 +102,4 @@ class Board
   end
 end
 board = Board.new
-puts
-board.to_s
-board.make_move
-board.to_s
+board.game_loop
