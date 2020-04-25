@@ -1,4 +1,4 @@
-require_relative '../lib/pieces/bishop.rb'
+require_relative '../lib/pieces/pieces.rb'
 describe 'Bishop' do
   let(:bishop) { Bishop.new('white') }
 

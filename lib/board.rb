@@ -60,7 +60,6 @@ class Board
       to_s
       start, finish = get_input
       break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
-      binding.pry
     end
     return start, finish
   end
@@ -105,5 +104,3 @@ class Board
     print 'COL'
   end
 end
-board = Board.new
-board.game_loop
