@@ -76,6 +76,23 @@ class Board
   end 
 
   def set_new_position(start, finish)
+    #Castle?
+    i = @current_player.color == :white ? 7 : 0
+    if right_rook_king_starting_position?(start, i)
+      #king side castling
+      if start == [i, 4] && finish == [i, 6] && [@positions[i][5].color, @positions[i][6].color].all? nil
+        @positions[i][6] = @positions[i][4]
+        @positions[i][4] = @positions[i][5]
+        @positions[i][5] = @positions[i][7]
+        @positions[i][7] = @positions[i][4]
+      #queen side catling
+    elsif left_rook_king_start_position?(start)
+      if start == [i, 4] && finish == [i, 2] && [@positions[i][3].color, @positions[i][2].color].all? nil
+        @positions[i][2] = @positions[i][4] 
+        @positions[i][3] = @positions[i][0] 
+        @positions[i][0] = @positions[i][1] 
+      end
+    end
     if [Rook, King, Pawn].include?(@positions[start[0]][start[1]].class)
       @positions[start[0]][start[1]].has_moved = true
     end
@@ -87,6 +104,25 @@ class Board
       @positions[finish[0]][finish[1]], @positions[start[0]][start[1]] = @positions[start[0]][start[1]], @positions[finish[0]][finish[1]]
     end
   end
+  def left_rook_king_start_position?(start, i)
+    if @current_player.color == @positions[start[0]][start[1]].color && 
+        @positions[start[0]][start[1]].class == King && 
+        @positions[start[0]][start[1]].has_moved == false &&
+        @positions[i][0].class == Rook &&
+        @positions[i][0].has_moved == false
+      return true
+    end
+
+  end
+  def right_rook_king_starting_position(start, i)
+    if @current_player.color == @positions[start[0]][start[1]].color && 
+        @positions[start[0]][start[1]].class == King && 
+        @positions[start[0]][start[1]].has_moved == false &&
+        @positions[i][7].class == Rook &&
+        @positions[i][7].has_moved == false
+      return true
+    end
+
   def to_s
     puts 'ROW'
     @positions.each_with_index do |row, i| 
