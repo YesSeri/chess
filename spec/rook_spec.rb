@@ -10,10 +10,12 @@ describe 'Rook' do
       expect(rook.moveset).to include([-1, 0])
     end
   end
-  describe 'possible moves' do
-    xit 'can move 3 steps' do
-      expect(rook.legal_moves).to include([0, 3])
-      expect(rook.legal_moves).to include([3, 0])
+  describe 'class' do
+    it 'is rook class' do 
+      expect(rook.class).to eq(Rook)
+    end
+    it 'has symbol' do
+      expect(rook.symbol).to be_truthy
     end
   end
 end
