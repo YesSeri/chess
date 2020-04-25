@@ -25,5 +25,12 @@ include Rules
       expect(start_square_legal?(board, [0, 7])).to be false
     end
   end
+  describe 'end square' do
+    it 'tests if square is legal' do
+      expect(finish_square_legal?(board, [4, 0])).to be true #Empty square
+      expect(finish_square_legal?(board, [7, 0])).to be false #White square, white turn
+      expect(finish_square_legal?(board, [0, 7])).to be true #Black square, white turn
+    end
+  end
 end
 
