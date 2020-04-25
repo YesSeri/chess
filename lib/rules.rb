@@ -7,31 +7,43 @@ module Rules
     return false if start_square_legal?(board, start) == false
     return false if finish_square_legal?(board, finish) == false
     return false if pawn_capture_legal?(board, start, finish) == false
-    return false if piece_blocking?(board, start, finish) == true
+    return false if in_moveset_and_unblocked?(board, start, finish) == false
     true
   end
 
   #checks if square is reachable
   #Different for different pieces. One for straight movers, one for knight and so on. 
 
-  def piece_blocking?(board, start, finish)
+  def in_moveset_and_unblocked?(board, start, finish)
     
     piece = board.positions[start[0]][start[1]]
-    if piece.class == Knight || piece.class == King #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
-      return true
+
+    if piece.class == Knight #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
+      possible_moves = all_knight_moves(piece, start)
+      return true if possible_moves.include?(finish)
     elsif piece.class == Queen || Rook || Bishop
-      all_legal = long_move_all_legal(board, start, finish)
-      return false if all_legal.include?(finish)
+      possible_moves = legal_long_moves(board, start, finish)
+      return true if possible_moves.include?(finish)
     elsif piece.class == Pawn
+    elsif piece.class == King 
     end
-    true
+    false
   end
+  def all_knight_moves(knight, start)
+    legal_moves = []
+    moves = Array.new(8, start)
+    knight.moveset.each_with_index do |move, i|
+      legal_moves << [(moves[i][0] + move[0]), (moves[i][1] + move[1])]
+    end
+    legal_moves
+  end
+
   def pawn_capture_legal?(board, start, finish)
   
   end
   #Used for queen, bishop and rook. Returns all moves in bound. Doesnt notice if piece is in its way. Need to add a check if square is empty here, you can only move through empty squares, never through enemies. You can end up on enemy. 
   #Returns all legal moves, and stops when blocked.
-  def long_move_all_legal(board, start, finish)
+  def legal_long_moves(board, start, finish)
     piece = board.positions[start[0]][start[1]]
     empty_square = Empty_Square.new
     row = start[0]

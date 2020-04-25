@@ -60,24 +60,24 @@ class Board
       to_s
       start, finish = get_input
       break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
+      binding.pry
     end
     return start, finish
   end
   
   def get_input
     print "\nstart row"
-    row = gets.chomp.to_i
+    row = 7 #gets.chomp.to_i
     p "start col"
-    col = gets.chomp.to_i
+    col = 1 #gets.chomp.to_i
     p "finish row"
-    finish_row = gets.chomp.to_i
+    finish_row = 4 #gets.chomp.to_i
     p "finish col"
-    finish_col = gets.chomp.to_i
+    finish_col = 1 #gets.chomp.to_i
     return [row, col], [finish_row, finish_col]
   end 
 
   def set_new_position(start, finish)
-    binding.pry
     if [Rook, King, Pawn].include?(@positions[start[0]][start[1]].class)
       @positions[start[0]][start[1]].has_moved = true
     end
