@@ -15,11 +15,13 @@ module Rules
   #Different for different pieces. One for straight movers, one for knight and so on. 
 
   def piece_blocking?(board, start, finish)
+    
     piece = board.positions[start[0]][start[1]]
-    if piece.class == Knight || King #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
+    if piece.class == Knight || piece.class == King #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
       return true
     elsif piece.class == Queen || Rook || Bishop
       all_legal = long_move_all_legal(board, start, finish)
+      return false if all_legal.include?(finish)
     elsif piece.class == Pawn
     end
     true

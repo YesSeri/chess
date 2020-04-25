@@ -30,6 +30,7 @@ class Pawn < Piece
     else
       @first_moveset
     end
+  end
 end
 
 class Knight < Piece

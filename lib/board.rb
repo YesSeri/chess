@@ -13,6 +13,7 @@ class Board
     @black_player = Player.new(:black)
     @current_player = @white_player
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
+    @captured_pieces = []
     add_back_rank
     
   end
@@ -46,33 +47,55 @@ class Board
 
   def make_move
     row, col, finish_row, finish_col = 0
+    start, finish = [], []
 
     loop do 
-      start, finish = [], []
-      row = 7 
-      col = 7 
+      puts
+      p "start row"
+      row = 7
+      p "start col"
+      col = 0
       start.push(row, col) 
       p start
-      finish_row = 2
-      finish_col = 7 
+      p "finish row"
+      finish_row = 0
+      p "finish col"
+      finish_col = 0 
       finish.push(finish_row, finish_col) 
       p finish
-      #break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
-      break
+      break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
   end
-    @positions[finish_row][finish_col] = @positions[col][row]
-    @positions[col][row] = Empty_Square.new
+    set_new_position(start, finish)
+  end
+  def set_new_position(start, finish)
+
+    binding.pry
+    if !@positions[finish[0]][finish[1]].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
+      @captured_pieces << @positions[finish[0]][finish[1]] 
+      @positions[finish[0]][finish[1]] = @positions[start[0]][start[1]]
+      @positions[start[0]][start[1]] == Empty_Square.new
+    else #If you move to empty square, just switch place of empty square and start square. 
+      @positions[finish[0]][finish[1]], @positions[start[0]][start[1]] = @positions[start[0]][start[1]], @positions[finish[0]][finish[1]]
+    end
   end
   def to_s
-    @positions.each do |row| 
+    puts 'ROW'
+    @positions.each_with_index do |row, i| 
+      print "#{i}  "
       row.each do |square|
         print square.symbol
       end
       puts
     end
+    print "   "
+    for i in 0..7
+      print "#{i}  "
+    end
+    print 'COL'
   end
 end
 board = Board.new
 puts
 board.to_s
-print long_move_all_legal(board, [7, 3], [2, 0])
+board.make_move
+board.to_s
