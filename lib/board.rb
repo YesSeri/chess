@@ -77,6 +77,10 @@ class Board
   end 
 
   def set_new_position(start, finish)
+    binding.pry
+    if [Rook, King, Pawn].include?(@positions[start[0]][start[1]].class)
+      @positions[start[0]][start[1]].has_moved = true
+    end
     if !@positions[finish[0]][finish[1]].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
       @captured_pieces << @positions[finish[0]][finish[1]] 
       @positions[finish[0]][finish[1]] = @positions[start[0]][start[1]]

@@ -16,7 +16,7 @@ class Empty_Square
 end
 
 class Pawn < Piece
-  attr_accessor :symbol, :has_moved
+  attr_accessor :symbol
   def initialize(color)
     super(color)
     @symbol = color == :white ? 'WP ' : 'BP '
@@ -66,7 +66,7 @@ class Bishop < Piece
 end
 
 class Rook < Piece
-  attr_accessor :moveset, :symbol
+  attr_accessor :moveset, :symbol, :has_moved
   def initialize(color)
     super(color)
     @moveset = [
@@ -93,7 +93,7 @@ class Queen < Piece
 end
 
 class King < Piece
-  attr_accessor :symbol, :moveset
+  attr_accessor :symbol, :moveset, :has_moved
   def initialize(color)
     super(color)
     @moveset = [
