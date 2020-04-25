@@ -15,11 +15,11 @@ class Board
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
     @captured_pieces = []
     add_back_rank
-    
+    add_pawns
   end
 
   def add_back_rank
-    @positions[0][0] = Rook.  new(@black_player.color)
+    @positions[5][0] = Rook.  new(@black_player.color)
     @positions[0][7] = Rook.  new(@black_player.color)
     @positions[0][1] = Knight.new(@black_player.color)
     @positions[0][6] = Knight.new(@black_player.color)
@@ -38,20 +38,19 @@ class Board
   end
 
   def add_pawns
-    8.times do |i|
-      @positions[1][i] = Pawn.new(:black)
-    end
+#    8.times do |i|
+#      @positions[1][i] = Pawn.new(:black)
+#    end
     8.times do |i|
       @positions[6][i] = Pawn.new(:white)
     end
   end
 
   def game_loop
-    loop do
       start_square, finish_square = get_legal_move
       set_new_position(start_square, finish_square)
       @current_player = @current_player == @white_player ? @black_player : @white_player
-    end
+      to_s
   end
 
   def get_legal_move
@@ -66,13 +65,13 @@ class Board
   
   def get_input
     print "\nstart row"
-    row = 7 #gets.chomp.to_i
+    row = 6 #gets.chomp.to_i
     p "start col"
     col = 1 #gets.chomp.to_i
     p "finish row"
-    finish_row = 4 #gets.chomp.to_i
+    finish_row = gets.chomp.to_i
     p "finish col"
-    finish_col = 1 #gets.chomp.to_i
+    finish_col = gets.chomp.to_i
     return [row, col], [finish_row, finish_col]
   end 
 
@@ -83,7 +82,7 @@ class Board
     if !@positions[finish[0]][finish[1]].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
       @captured_pieces << @positions[finish[0]][finish[1]] 
       @positions[finish[0]][finish[1]] = @positions[start[0]][start[1]]
-      @positions[start[0]][start[1]] == Empty_Square.new
+      @positions[start[0]][start[1]] = Empty_Square.new
     else #If you move to empty square, just switch place of empty square and start square. 
       @positions[finish[0]][finish[1]], @positions[start[0]][start[1]] = @positions[start[0]][start[1]], @positions[finish[0]][finish[1]]
     end
@@ -104,3 +103,5 @@ class Board
     print 'COL'
   end
 end
+board = Board.new
+board.game_loop

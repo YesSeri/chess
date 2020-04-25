@@ -7,12 +7,11 @@ include Rules
   let(:board) { Board.new }
   describe 'main rules function' do
     it 'can test if a move is legal' do
-      expect(legal_move?(board, [0, 0], [4, 0])).to be false #White starts
-      expect(legal_move?(board, [7, 7], [5, 7])).to be true 
-      expect(legal_move?(board, [7, 1], [5, 2])).to be true
       expect(legal_move?(board, [7, 1], [5, 2])).to be true #knight
       expect(legal_move?(board, [7, 6], [6, 4])).to be true  
       expect(legal_move?(board, [7, 1], [2, 2])).to be false
+      expect(legal_move?(board, [6, 1], [5, 1])).to be true
+      expect(legal_move?(board, [6, 4], [4, 4])).to be true
     end
   end
   describe 'is the start square legal' do

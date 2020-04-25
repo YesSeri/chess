@@ -16,13 +16,13 @@ class Empty_Square
 end
 
 class Pawn < Piece
-  attr_accessor :symbol
+  attr_accessor :symbol, :has_moved
   def initialize(color)
     super(color)
     @symbol = color == :white ? 'WP ' : 'BP '
-    @moveset = color == :white ? [[1, 0]] : [[-1, 0]]
+    @moveset = color == :white ? [[-1, 0]] : [[1, 0]]
     @has_moved = false
-    @first_moveset = color == :white ? [[1, 0], [2, 0]] : [[-1, 0], [-2, -0]]
+    @first_moveset = color == :white ? [[-1, 0], [-2, 0]] : [[1, 0], [2, -0]]
   end
   def moveset
     if @has_moved
