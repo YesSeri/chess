@@ -28,7 +28,7 @@ module Rules
   
   end
   #Used for queen, bishop and rook. Returns all moves in bound. Doesnt notice if piece is in its way. Need to add a check if square is empty here, you can only move through empty squares, never through enemies. You can end up on enemy. 
-  
+  #Returns all legal moves, and stops when blocked.
   def long_move_all_legal(board, start, finish)
     piece = board.positions[start[0]][start[1]]
     empty_square = Empty_Square.new
