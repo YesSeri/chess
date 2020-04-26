@@ -7,6 +7,7 @@ def start_game
 end
 def game_loop(board)
   loop do
+    board.to_s
     start_square, finish_square = get_legal_move(board)
     board.set_new_position(start_square, finish_square)
     board.current_player = board.current_player == board.white_player ? board.black_player : board.white_player
@@ -14,14 +15,18 @@ def game_loop(board)
 end
 def get_legal_move(board)
   start, finish = [], []
-    loop do
-      board.to_s
-      start, finish = get_input
-      if board.legal_move?(self, start, finish) #This is a module dedicated to finding legal moves
+  loop do
+    start, finish = get_input
+    if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
+      temp_board = board 
+      temp_board.set_new_position(start, finish)
+      binding.pry
+      if !board.in_check?(temp_board)
         break
       end
     end
-    return start, finish
+  end
+  return start, finish
   end
 def get_input
   print "\nstart row"

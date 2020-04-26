@@ -1,25 +1,26 @@
 require 'pry'
 require 'pry-byebug'
 require_relative 'pieces/pieces.rb'
-require_relative 'string'
 require_relative 'player'
 require_relative 'legality'
+require_relative 'rules'
 include Legality
+include Rules
 class Board
-  attr_reader :current_player, :positions
+  attr_accessor :current_player, :positions, :white_player, :black_player, :captured_pieces
   
   def initialize
     @white_player = Player.new(:white)
     @black_player = Player.new(:black)
     @current_player = @white_player
+    @white_turn = true
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
     @captured_pieces = []
     add_back_rank
-    add_pawns
   end
 
   def add_back_rank
-    @positions[0][0] = Rook.  new(@black_player.color)
+    @positions[1][4] = Rook.  new(@black_player.color)
     @positions[0][1] = Knight.new(@black_player.color)
     @positions[0][2] = Bishop.new(@black_player.color)
     @positions[0][3] = Queen. new(@black_player.color)
@@ -27,7 +28,7 @@ class Board
     @positions[0][5] = Bishop.new(@black_player.color)
     @positions[0][6] = Knight.new(@black_player.color)
     @positions[0][7] = Rook.  new(@black_player.color)
-    @positions[7][0] = Rook.  new(@white_player.color)
+    @positions[6][4] = Rook.  new(@white_player.color)
     @positions[7][1] = Knight.new(@white_player.color)
     @positions[7][2] = Bishop.new(@white_player.color)
     @positions[7][3] = Queen. new(@white_player.color)
@@ -45,18 +46,6 @@ class Board
       @positions[6][i] = Pawn.new(:white)
     end
   end
-
-  def get_input
-    print "\nstart row"
-    row = gets.chomp.to_i
-    p "start col"
-    col = gets.chomp.to_i
-    p "finish row"
-    finish_row = gets.chomp.to_i
-    p "finish col"
-    finish_col = gets.chomp.to_i
-    return [row, col], [finish_row, finish_col]
-  end 
 
   def set_new_position(start, finish)
     #Castle?
