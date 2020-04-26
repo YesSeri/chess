@@ -3,8 +3,8 @@ require 'pry-byebug'
 require_relative 'pieces/pieces.rb'
 require_relative 'string'
 require_relative 'player'
-require_relative 'rules'
-include Rules
+require_relative 'legality'
+include Legality
 class Board
   attr_reader :current_player, :positions
   
@@ -46,24 +46,6 @@ class Board
     end
   end
 
-  def game_loop
-    loop do
-      start_square, finish_square = get_legal_move
-      set_new_position(start_square, finish_square)
-      @current_player = @current_player == @white_player ? @black_player : @white_player
-    end
-  end
-
-  def get_legal_move
-    start, finish = [], []
-    loop do 
-      to_s
-      start, finish = get_input
-      break if legal_move?(self, start, finish) #This is a module dedicated to finding legal moves 
-    end
-    return start, finish
-  end
-  
   def get_input
     print "\nstart row"
     row = gets.chomp.to_i
@@ -130,14 +112,13 @@ class Board
         print square.symbol
       end
       puts
+      puts
     end
-    print "   "
+    print '    '
     for i in 0..7
-      print "#{i}  "
+      print "#{i}    "
     end
     puts 'COL'
     print "#{current_player.color}'s turn"
   end
 end
-board = Board.new
-board.game_loop

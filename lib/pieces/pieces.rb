@@ -11,7 +11,7 @@ class Empty_Square
   attr_accessor :color, :symbol
   def initialize
     @color = nil
-    @symbol = '.. '
+    @symbol = ' ... '
   end
 end
 
@@ -19,7 +19,7 @@ class Pawn < Piece
   attr_accessor :symbol, :has_moved
   def initialize(color)
     super(color)
-    @symbol = color == :white ? 'WP ' : 'BP '
+    @symbol = color == :white ? ' WPW ' : ' BPB '
     @moveset = color == :white ? [[-1, 0]] : [[1, 0]]
     @has_moved = false
     @first_moveset = color == :white ? [[-1, 0], [-2, 0]] : [[1, 0], [2, -0]]
@@ -47,7 +47,7 @@ class Knight < Piece
       [-1, 2],
       [-1,-2],
     ]
-    @symbol = color == :white ? 'WK ' : 'BK '
+    @symbol = color == :white ? ' WKW ' : ' BKB '
   end
 end
 
@@ -61,7 +61,7 @@ class Bishop < Piece
       [1,  -1],
       [-1,  1]
     ]
-    @symbol = color == :white ? 'WB ' : 'BB '
+    @symbol = color == :white ? ' WBW ' : ' BBB '
   end
 end
 
@@ -75,7 +75,7 @@ class Rook < Piece
       [1,  0],
       [-1, 0]
     ]
-    @symbol = color == :white ? 'WR ' : 'BR '
+    @symbol = color == :white ? ' WRW ' : ' BRB '
     @has_moved = false
   end
 end
@@ -88,7 +88,7 @@ class Queen < Piece
       [-1, -1], [-1, 0], [-1, 1],
       [ 0, -1],          [ 0, 1],
       [ 1, -1], [ 1, 0], [ 1, 1]]
-    @symbol = color == :white ? 'WQ ' : 'BQ '
+    @symbol = color == :white ? ' WQW ' : ' BQB '
   end
 end
 
@@ -100,7 +100,7 @@ class King < Piece
       [-1, -1], [-1, 0], [-1, 1],
       [ 0, -1],          [ 0, 1],
       [ 1, -1], [ 1, 0], [ 1, 1]]
-    @symbol = color == :white ? 'W$ ' : 'B$ '
+    @symbol = color == :white ? ' W$W ' : ' B$B '
     @has_moved = false
   end
 end
