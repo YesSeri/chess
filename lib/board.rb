@@ -15,6 +15,7 @@ class Board
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
     @captured_pieces = []
     add_back_rank
+    add_pawns
   end
 
   def add_back_rank
@@ -27,9 +28,9 @@ class Board
     @positions[0][6] = Knight.new(@black_player.color)
     @positions[0][7] = Rook.  new(@black_player.color)
     @positions[7][0] = Rook.  new(@white_player.color)
-    #@positions[7][1] = Knight.new(@white_player.color)
-    #@positions[7][2] = Bishop.new(@white_player.color)
-    #@positions[7][3] = Queen. new(@white_player.color)
+    @positions[7][1] = Knight.new(@white_player.color)
+    @positions[7][2] = Bishop.new(@white_player.color)
+    @positions[7][3] = Queen. new(@white_player.color)
     @positions[7][4] = King.  new(@white_player.color)
     @positions[7][5] = Bishop.new(@white_player.color)
     @positions[7][6] = Knight.new(@white_player.color)
@@ -46,10 +47,11 @@ class Board
   end
 
   def game_loop
+    loop do
       start_square, finish_square = get_legal_move
       set_new_position(start_square, finish_square)
       @current_player = @current_player == @white_player ? @black_player : @white_player
-      to_s
+    end
   end
 
   def get_legal_move
@@ -64,9 +66,9 @@ class Board
   
   def get_input
     print "\nstart row"
-    row = 7 #gets.chomp.to_i
+    row = gets.chomp.to_i
     p "start col"
-    col = 4 #gets.chomp.to_i
+    col = gets.chomp.to_i
     p "finish row"
     finish_row = gets.chomp.to_i
     p "finish col"
@@ -133,7 +135,8 @@ class Board
     for i in 0..7
       print "#{i}  "
     end
-    print 'COL'
+    puts 'COL'
+    print "#{current_player.color}'s turn"
   end
 end
 board = Board.new

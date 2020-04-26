@@ -43,7 +43,6 @@ module Rules
   end
   def castling_king_side_test(board, king, start)
 
-      binding.pry
     i = board.current_player.color == :white ? 7 : 0
     return if board.positions[i][7].class != Rook || board.positions[i][7].color != board.current_player.color
     if !king.has_moved && !board.positions[i][7].has_moved && board.positions[i][6].class == Empty_Square && board.positions[i][5].class == Empty_Square
@@ -60,7 +59,7 @@ module Rules
   end
   def all_knight_moves(knight, start)
     possible_moves = []
-    knight.moveset.each do |move, i|
+    knight.moveset.each do |move|
       possible_moves << [(start[0] + move[0]), (start[1] + move[1])]
     end
     possible_moves
