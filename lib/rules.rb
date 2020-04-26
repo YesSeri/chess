@@ -27,24 +27,51 @@ module Rules
       possible_moves = pawn_legal_moves(board, start)
       return true if possible_moves.include?(finish)
     elsif piece.class == King 
+      possible_moves = all_king_moves(board, piece, start)
+      return true if possible_moves.include?(finish)
     end
     false
   end
-  def all_knight_moves(knight, start)
-    legal_moves = []
-    moves = Array.new(8, start)
-    knight.moveset.each_with_index do |move, i|
-      legal_moves << [(moves[i][0] + move[0]), (moves[i][1] + move[1])]
+  def all_king_moves(board, king, start)
+    possible_moves = []
+    possible_moves << castling_king_side_test(board, king, start)
+    possible_moves << castling_queen_side_test(board, king, start)
+    king.moveset.each do |move|
+      possible_moves << [start[0] + move[0], start[1] + move[1]]
     end
-    legal_moves
+    possible_moves
+  end
+  def castling_king_side_test(board, king, start)
+
+      binding.pry
+    i = board.current_player.color == :white ? 7 : 0
+    return if board.positions[i][7].class != Rook || board.positions[i][7].color != board.current_player.color
+    if !king.has_moved && !board.positions[i][7].has_moved && board.positions[i][6].class == Empty_Square && board.positions[i][5].class == Empty_Square
+      return [i, 6]
+    end    
+  []
+  end
+  def castling_queen_side_test(board, king, start)
+    i = board.current_player.color == :white ? 7 : 0
+    return if board.positions[i][0].class != Rook || board.positions[i][7].color != board.current_player.color
+    if !king.has_moved && !board.positions[i][0].has_moved && board.positions[i][1].class == Empty_Square && board.positions[i][2].class == Empty_Square && board.positions[i][3].class == Empty_Square
+      return [i, 2]
+    end    
+  end
+  def all_knight_moves(knight, start)
+    possible_moves = []
+    knight.moveset.each do |move, i|
+      possible_moves << [(start[0] + move[0]), (start[1] + move[1])]
+    end
+    possible_moves
   end
 
   def pawn_legal_moves(board, start)
-    legal_moves = pawn_legal_captures(board, start)
+    possible_moves = pawn_legal_captures(board, start)
     board.positions[start[0]][start[1]].moveset.each do |move|
-      legal_moves << [start[0]+move[0], start[1]]
+      possible_moves << [start[0]+move[0], start[1]]
     end
-    legal_moves
+    possible_moves
 
   end
   def pawn_legal_captures(board, start)
