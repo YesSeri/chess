@@ -3,6 +3,7 @@ require 'pry-byebug'
 require_relative 'pieces/pieces.rb'
 module Legality
   def legal_move?(board, start, finish) #For squares, arrays, first value is row second is column.
+    board.positions[3][3] = Rook.new(:black, 3, 3)
     return false if test_range(start, finish) == false
     return false if start_square_legal?(board, start) == false
     return false if finish_square_legal?(board, finish) == false

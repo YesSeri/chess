@@ -1,22 +1,25 @@
-require 'board'
-require 'pieces/queen'
+require_relative '../lib/pieces/pieces.rb'
+describe 'Queen' do
+  let(:queen) { Queen.new('white') }
 
-xdescribe 'Queen' do
-  let(:board) { Board.new('Henrik', 'Alio') }
-  let(:queen) { Queen.new('white', [3, 3]) }
-
-  describe 'movement' do
-    it 'can move horizontally' do
-      expect(queen.legal_moves).to include([3, 1])
-      expect(queen.legal_moves).to include([3, 7])
+  describe 'move set' do
+    it 'can move in all four directions' do
+      expect(queen.moveset).to include([0, 1])
+      expect(queen.moveset).to include([0, -1])
+      expect(queen.moveset).to include([1, 0])
+      expect(queen.moveset).to include([-1, 0])
+      expect(queen.moveset).to include([1, 1])
+      expect(queen.moveset).to include([-1, -1])
+      expect(queen.moveset).to include([1, -1])
+      expect(queen.moveset).to include([-1, 1])
     end
-    it 'can move vertically' do
-      expect(queen.legal_moves).to include([0, 3])
-      expect(queen.legal_moves).to include([5, 3])
+  end
+  describe 'class' do
+    it 'is queen class' do 
+      expect(queen.class).to eq(Queen)
     end
-    it 'can move diagonally' do
-      expect(queen.legal_moves).to include([5, 5])
-      expect(queen.legal_moves).to include([5, 1])
+    it 'has symbol' do
+      expect(queen.symbol).to be_truthy
     end
   end
 end

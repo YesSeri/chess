@@ -8,7 +8,7 @@ include Legality
 include Rules
 class Board
   attr_accessor :current_player, :positions, :white_player, :black_player, :captured_pieces
-  
+
   def initialize
     @white_player = Player.new(:white)
     @black_player = Player.new(:black)
@@ -20,22 +20,22 @@ class Board
   end
 
   def add_back_rank
-    @positions[1][4] = Rook.  new(@black_player.color)
-    @positions[0][1] = Knight.new(@black_player.color)
-    @positions[0][2] = Bishop.new(@black_player.color)
-    @positions[0][3] = Queen. new(@black_player.color)
-    @positions[0][4] = King.  new(@black_player.color)
-    @positions[0][5] = Bishop.new(@black_player.color)
-    @positions[0][6] = Knight.new(@black_player.color)
-    @positions[0][7] = Rook.  new(@black_player.color)
-    @positions[6][4] = Rook.  new(@white_player.color)
-    @positions[7][1] = Knight.new(@white_player.color)
-    @positions[7][2] = Bishop.new(@white_player.color)
-    @positions[7][3] = Queen. new(@white_player.color)
-    @positions[7][4] = King.  new(@white_player.color)
-    @positions[7][5] = Bishop.new(@white_player.color)
-    @positions[7][6] = Knight.new(@white_player.color)
-    @positions[7][7] = Rook.  new(@white_player.color)
+    @positions[0][0] = Rook.  new(:black, 0, 0)
+    @positions[0][1] = Knight.new(:black, 0, 1)
+    @positions[0][2] = Bishop.new(:black, 0, 2)
+    @positions[0][3] = Queen. new(:black, 0, 3)
+    @positions[0][4] = King.  new(:black, 0, 4)
+    @positions[0][5] = Bishop.new(:black, 0, 5)
+    @positions[0][6] = Knight.new(:black, 0, 6)
+    @positions[0][7] = Rook.  new(:black, 0, 7)
+    @positions[7][0] = Rook.  new(:white, 7, 0)
+    @positions[7][1] = Knight.new(:white, 7, 1)
+    @positions[7][2] = Bishop.new(:white, 7, 2)
+    @positions[7][3] = Queen. new(:white, 7, 3)
+    @positions[7][4] = King.  new(:white, 7, 4)
+    @positions[7][5] = Bishop.new(:white, 7, 5)
+    @positions[7][6] = Knight.new(:white, 7, 6)
+    @positions[7][7] = Rook.  new(:white, 7, 7)
   end
 
   def add_pawns
@@ -49,9 +49,9 @@ class Board
 
   def set_new_position(start, finish)
     #Castle?
-    piece = @positions[start[0]][start[1]] 
     row, col = start[0], start[1]
     fin_row, fin_col = finish[0], finish[1]
+    piece = @positions[row][col]
     if piece.class == King && !piece.has_moved && [0, 7].include?(fin_row)
       return if castling(start, finish) == true
     end
@@ -60,12 +60,13 @@ class Board
       @positions[row][col].has_moved = true
     end
     if !@positions[fin_row][fin_col].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
-      @captured_pieces << @positions[fin_row][fin_col] 
+      @captured_pieces << @positions[fin_row][fin_col]
       @positions[fin_row][fin_col] = @positions[row][col]
       @positions[row][col] = Empty_Square.new
-    else #If you move to empty square, just switch place of empty square and start square. 
+    else #If you move to empty square, just switch place of empty square and start square.
       @positions[fin_row][fin_col], @positions[row][col] = @positions[row][col], @positions[fin_row][fin_col]
     end
+    self
   end
   def castling(start, finish)
     row = finish[0]
@@ -94,8 +95,9 @@ class Board
   end
 
   def to_s
+    puts
     puts 'ROW'
-    @positions.each_with_index do |row, i| 
+    @positions.each_with_index do |row, i|
       print "#{i}  "
       row.each do |square|
         print square.symbol

@@ -1,6 +1,7 @@
 require 'pry'
 require 'pry-byebug'
 require_relative 'board'
+require_relative 'pieces/rook'
 def start_game
   board = Board.new
   game_loop(board)
@@ -9,7 +10,8 @@ def game_loop(board)
   loop do
     board.to_s
     start_square, finish_square = get_legal_move(board)
-    board.set_new_position(start_square, finish_square)
+    puts
+    board = board.set_new_position(start_square, finish_square)
     board.current_player = board.current_player == board.white_player ? board.black_player : board.white_player
   end
 end
@@ -18,25 +20,22 @@ def get_legal_move(board)
   loop do
     start, finish = get_input
     if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
-      temp_board = board 
-      temp_board.set_new_position(start, finish)
-      binding.pry
-      if !board.in_check?(temp_board)
-        break
-      end
+      temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
+      break
     end
   end
   return start, finish
-  end
+end
+
 def get_input
   print "\nstart row"
   row = gets.chomp.to_i
   p "start col"
-  col = gets.chomp.to_i
+  col = 7 #gets.chomp.to_i
   p "finish row"
   finish_row = gets.chomp.to_i
   p "finish col"
-  finish_col = gets.chomp.to_i
+  finish_col = 7 #gets.chomp.to_i
   return [row, col], [finish_row, finish_col]
 end
 
