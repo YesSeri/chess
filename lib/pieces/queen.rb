@@ -10,4 +10,3 @@ class Queen < Piece
     @symbol = color == :white ? ' WQW ' : ' BQB '
   end
 end
-

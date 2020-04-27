@@ -1,0 +1,4 @@
+require_relative 'empty_square'
+b = Queen.new(:white, 4, 4)
+positions = Array.new(8) { Array.new(8, Empty_Square.new) }
+p b.all_possible_moves(positions)

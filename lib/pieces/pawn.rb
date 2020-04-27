@@ -20,7 +20,7 @@ class Pawn < Piece
   end
  def all_possible_moves(positions)
     possible_moves = pawn_legal_captures(positions)
-    positions[row][col].moveset.each do |move|
+    moveset.each do |move|
       possible_moves << [row+move[0], col]
     end
     possible_moves
@@ -41,3 +41,4 @@ class Pawn < Piece
 end
 board = Array.new(8) { Array.new(8, Empty_Square.new) }
 pawn = Pawn.new(:white, 4, 4)
+p pawn.all_possible_moves(board)

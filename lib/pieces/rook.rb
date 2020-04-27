@@ -13,4 +13,3 @@ class Rook < Piece
     @has_moved = false
   end
 end
-

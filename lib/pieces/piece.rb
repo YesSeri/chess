@@ -1,3 +1,5 @@
+require 'pry'
+require 'pry-byebug'
 # This class contains things that all pieces need. 
 class Piece
   attr_accessor :color, :row, :col
@@ -13,18 +15,18 @@ class Piece
   end
   def all_possible_moves(positions)
     possible_moves = []
-    piece.moveset.each do |move|
+    moveset.each do |move|
       temp_row = row
       temp_col = col
       loop do
         temp_row += move[0]
         temp_col += move[1]
-        piece = positions[temp_row][temp_col]
         break if !within_bounds?(temp_row, temp_col)
+        square = positions[temp_row][temp_col]
         # If a square has the same color piece as player he is blocked. 
-        if piece.color == color
+        if square.color == color
           break
-        elsif piece.color == empty_square.color
+        elsif square.color.nil?
           possible_moves << [temp_row, temp_col]
         else
           possible_moves << [temp_row, temp_col]
