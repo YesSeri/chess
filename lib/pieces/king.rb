@@ -12,11 +12,13 @@ class King < Piece
   end
   def all_possible_moves(positions)
     possible_moves = []
-    possible_moves << castling_king_side_test(positions)
-    possible_moves << castling_queen_side_test(positions)
+    castling = castling_king_side_test(positions)
+    possible_moves << castling unless castling.nil?
+    castling = castling_queen_side_test(positions)
+    possible_moves << castling unless castling.nil?
     moveset.each do |move|
       new_row, new_col = row + move[0], col + move[1]
-      if within_bounds?(new_row, new_col)
+      if within_bounds?(new_row, new_col) && legal_square?(new_row, new_col, positions)
         possible_moves << [new_row, new_col] 
       end
     end
@@ -28,12 +30,11 @@ class King < Piece
     if !has_moved && !positions[i][7].has_moved && positions[i][6].class == Empty_Square && positions[i][5].class == Empty_Square
       return [i, 6]
     end    
-  []
   end
   def castling_queen_side_test(positions)
     i = color == :white ? 7 : 0
     return if positions[i][0].class != Rook || positions[i][7].color != color 
-    if !king.has_moved && !positions[i][0].has_moved && positions[i][1].class == Empty_Square && positions[i][2].class == Empty_Square && positions[i][3].class == Empty_Square
+    if !has_moved && !positions[i][0].has_moved && positions[i][1].class == Empty_Square && positions[i][2].class == Empty_Square && positions[i][3].class == Empty_Square
       return [i, 2]
     end    
   end

@@ -23,7 +23,7 @@ class Knight < Piece
     moveset.each do |move|
       new_row = row + move[0]
       new_col = col + move[1]
-      if within_bounds?(new_row, new_col)
+      if within_bounds?(new_row, new_col) && legal_square?(new_row, new_col, positions)
         possible_moves << [new_row, new_col]
       end
     end

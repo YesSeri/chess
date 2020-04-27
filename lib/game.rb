@@ -10,10 +10,15 @@ end
 def game_loop(board)
   loop do
     board.to_s
+    string = board.stalemate_or_checkmate(board)
+
+    unless string == 'continue'
+      puts string
+      break
+    end
     start_square, finish_square = get_legal_move(board)
     puts
     board.set_new_position(start_square, finish_square)
-    binding.pry
     board.current_player = board.current_player == board.white_player ? board.black_player : board.white_player
   end
 end
@@ -24,8 +29,9 @@ def get_legal_move(board)
     if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
       temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
       temp_board.set_new_position(start, finish)
-      in_check?(temp_board)
-      break
+      if !in_check?(temp_board)
+        break
+      end
     end
   end
   return start, finish
@@ -35,11 +41,11 @@ def get_input
   print "\nstart row"
   row = gets.chomp.to_i
   p "start col"
-  col = 7 #gets.chomp.to_i
+  col = 4 #gets.chomp.to_i
   p "finish row"
   finish_row = gets.chomp.to_i
   p "finish col"
-  finish_col = 7 #gets.chomp.to_i
+  finish_col = 3 #gets.chomp.to_i
   return [row, col], [finish_row, finish_col]
 end
 

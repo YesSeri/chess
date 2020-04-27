@@ -12,83 +12,16 @@ module Legality
   #Different for different pieces. One for straight movers, one for knight and so on. 
 
   def in_moveset_and_unblocked?(board, start, finish)
-    
     piece = board.positions[start[0]][start[1]]
-
-    if piece.class == Knight #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
-      possible_moves = piece.all_possible_moves(board.positions)
-      return true if possible_moves.include?(finish)
-    elsif piece.class == Queen || piece.class == Rook || piece.class == Bishop
-      possible_moves = legal_long_moves(board, start)
-      return true if possible_moves.include?(finish)
-    elsif piece.class == Pawn
-      possible_moves = piece.all_possible_moves(board.positions)
-      return true if possible_moves.include?(finish)
-    elsif piece.class == King 
-      possible_moves = all_king_moves(board, piece, start)
-      return true if possible_moves.include?(finish)
-    end
+    possible_moves = piece.all_possible_moves(board.positions)
+    return true if possible_moves.include?(finish)
     false
   end
   
   
-
-  def pawn_legal_moves(board, start)
-    possible_moves = pawn_legal_captures(board, start)
-    board.positions[start[0]][start[1]].moveset.each do |move|
-      possible_moves << [start[0]+move[0], start[1]]
-    end
-    possible_moves
-
-  end
-  def pawn_legal_captures(board, start)
-    opposite_color = board.current_player.color == :white ? :black : :white
-    legal_captures = []
-    row = start[0]
-    col = start[1] 
-    if board.current_player.color == :white
-      left_capture_piece = board.positions[row - 1][col - 1]
-      right_capture_piece =  board.positions[row - 1][col + 1]
-      legal_captures << [row -1, col - 1] if left_capture_piece.color == opposite_color
-      legal_captures << [row -1, col + 1] if right_capture_piece.color == opposite_color
-    else
-      left_capture_piece = board.positions[row + 1][col - 1]
-      right_capture_piece =  board.positions[row + 1][col + 1]
-      legal_captures << [row + 1, col - 1] if left_capture_piece.color == opposite_color
-      legal_captures << [row + 1, col + 1] if right_capture_piece.color == opposite_color
-    end
-    legal_captures
-  end
   #Used for queen, bishop and rook. Returns all moves in bound. Doesnt notice if piece is in its way. Need to add a check if square is empty here, you can only move through empty squares, never through enemies. You can end up on enemy. 
   #Returns all legal moves, and stops when blocked.
-  def legal_long_moves(board, start)
-    piece = board.positions[start[0]][start[1]]
-    empty_square = Empty_Square.new
-    row = start[0]
-    column = start[1]
-    legal_moves = []
-    piece.moveset.each do |move|
-      temp_row = row
-      temp_col = column
-      loop do
-        temp_row += move[0]
-        temp_col += move[1]
-        break if !temp_row.between?(0, 7) || !temp_col.between?(0, 7)
-        # If a square has the same color piece as player he is blocked. 
-        if board.positions[temp_row][temp_col].color == board.current_player.color
-          break
-        elsif board.positions[temp_row][temp_col].color == empty_square.color 
-          legal_moves << [temp_row, temp_col]
-        else
-          legal_moves << [temp_row, temp_col]
-          break
-        end
-      end
-    end
-    legal_moves
-  end
-  
-  def start_square_legal?(board, start)
+    def start_square_legal?(board, start)
     start_piece = board.positions[start[0]][start[1]]
     return false if start_piece.color != board.current_player.color
     true

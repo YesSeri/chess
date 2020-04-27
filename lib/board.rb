@@ -4,7 +4,6 @@ require_relative 'pieces/pieces.rb'
 require_relative 'player'
 require_relative 'legality'
 require_relative 'rules'
-include Legality
 include Rules
 class Board
   attr_accessor :current_player, :positions, :white_player, :black_player, :captured_pieces
@@ -64,8 +63,16 @@ class Board
       @captured_pieces << @positions[fin_row][fin_col]
       @positions[fin_row][fin_col] = @positions[row][col]
       @positions[row][col] = Empty_Square.new
+
+      @positions[fin_row][fin_col].row = fin_row
+      @positions[fin_row][fin_col].col = fin_col
+
+
     else #If you move to empty square, just switch place of empty square and start square.
       @positions[fin_row][fin_col], @positions[row][col] = @positions[row][col], @positions[fin_row][fin_col]
+
+      @positions[fin_row][fin_col].row = fin_row
+      @positions[fin_row][fin_col].col = fin_col
     end
   end
   def castling(start, finish)
@@ -102,7 +109,7 @@ class Board
     end
   end
   def find_king(color)
-    @positions.flatten.select do |piece|
+    @positions.flatten.each do |piece|
       return piece if piece.class == King && piece.color == color
     end
   end
@@ -125,3 +132,6 @@ class Board
     print "#{current_player.color}'s turn"
   end
 end
+board = Board.new
+board.to_s
+board.legal_move_left?(board)

@@ -11,7 +11,9 @@ class Piece
 
   def within_bounds?(row, col)
     row.between?(0,7) && col.between?(0,7) ? true : false
-
+  end
+  def legal_square?(row, col, positions)
+    positions[row][col].color != color ? true : false
   end
   def all_possible_moves(positions)
     possible_moves = []

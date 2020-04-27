@@ -1,19 +1,31 @@
-require 'pry'
-require 'pry-byebug'
-require_relative 'pieces/pieces.rb'
-
-# Checks for check. Is then used in game file for testing for stalmate and checkmate. 
-# The board recieved is one where the new move is already applied. If current player is in check here that means he is in check after making move which means it is illegal.
 module Rules
   def in_check?(board)
-    king = find_king(board.current_player.color)
-    board.positions.flatten { |p| !p.class != Empty_Square && p.color != king.color }.each do |piece|
-      if piece.all_possible_moves.include?([king.row, king.col])
+    king = board.find_king(board.current_player.color)
+
+    board.positions.flatten.select { |p| p.class != Empty_Square && p.color != king.color }.each do |piece|
+      if piece.all_possible_moves(board.positions).include?([king.row, king.col])
         return true
       end
     end
     false
   end
+  def stalemate_or_checkmate(board)
+    check = in_check?(board)
+    if !legal_move_left?(board)
+      return 'checkmate' if check
+      'stalemate'
+    else
+      'continue'
+    end
+  end
+  def legal_move_left?(board)
+    board.positions.flatten.select { |p| p.class != Empty_Square && p.color == current_player.color }.each do |piece|
+      piece.all_possible_moves(board.positions).each do |move|
+        temp_board = Marshal.load(Marshal.dump(board))
+        temp_board.set_new_position([piece.row, piece.col], move)
+        return true if !in_check?(temp_board)
+      end
+    end
+    false
+  end
 end
-
-

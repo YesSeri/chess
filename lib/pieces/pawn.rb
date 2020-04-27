@@ -39,6 +39,3 @@ class Pawn < Piece
     legal_captures
   end
 end
-board = Array.new(8) { Array.new(8, Empty_Square.new) }
-pawn = Pawn.new(:white, 4, 4)
-p pawn.all_possible_moves(board)
