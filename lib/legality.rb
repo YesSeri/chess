@@ -3,10 +3,7 @@ require 'pry-byebug'
 require_relative 'pieces/pieces.rb'
 module Legality
   def legal_move?(board, start, finish) #For squares, arrays, first value is row second is column.
-    board.positions[3][3] = Rook.new(:black, 3, 3)
-    return false if test_range(start, finish) == false
     return false if start_square_legal?(board, start) == false
-    return false if finish_square_legal?(board, finish) == false
     return false if in_moveset_and_unblocked?(board, start, finish) == false
     true
   end
@@ -19,13 +16,13 @@ module Legality
     piece = board.positions[start[0]][start[1]]
 
     if piece.class == Knight #Knight jumps over, cant be blocked. King can always take. Control for check happens later. 
-      possible_moves = piece.all_possible_moves(start)
+      possible_moves = piece.all_possible_moves(board.positions)
       return true if possible_moves.include?(finish)
     elsif piece.class == Queen || piece.class == Rook || piece.class == Bishop
       possible_moves = legal_long_moves(board, start)
       return true if possible_moves.include?(finish)
     elsif piece.class == Pawn
-      possible_moves = pawn_legal_moves(board, start)
+      possible_moves = piece.all_possible_moves(board.positions)
       return true if possible_moves.include?(finish)
     elsif piece.class == King 
       possible_moves = all_king_moves(board, piece, start)
@@ -95,22 +92,5 @@ module Legality
     start_piece = board.positions[start[0]][start[1]]
     return false if start_piece.color != board.current_player.color
     true
-  end
-
-  def finish_square_legal?(board, finish)
-    finish_piece = board.positions[finish[0]][finish[1]]
-    return false if finish_piece.color == board.current_player.color
-    true
-  end
-
-  def test_range(start, finish)
-    return false if start == finish
-    return false if legal_range?(start) == false
-    return false if legal_range?(finish) == false
-    true
-  end
-
-  def legal_range?(square)
-    square.all? { |a| true if a >= 0 && a <= 7 }
   end
 end

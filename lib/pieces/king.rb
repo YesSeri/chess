@@ -15,8 +15,9 @@ class King < Piece
     possible_moves << castling_king_side_test(positions)
     possible_moves << castling_queen_side_test(positions)
     moveset.each do |move|
-      if Board.within_bounds?(row + move[0], col + move[1])
-        possible_moves << [row + move[0], col + move[1]] 
+      new_row, new_col = row + move[0], col + move[1]
+      if within_bounds?(new_row, new_col)
+        possible_moves << [new_row, new_col] 
       end
     end
     possible_moves

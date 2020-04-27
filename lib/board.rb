@@ -17,6 +17,7 @@ class Board
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
     @captured_pieces = []
     add_back_rank
+    add_pawns
   end
 
   def add_back_rank
@@ -40,10 +41,10 @@ class Board
 
   def add_pawns
     8.times do |i|
-      @positions[1][i] = Pawn.new(:black)
+      @positions[1][i] = Pawn.new(:black, 1, i)
     end
     8.times do |i|
-      @positions[6][i] = Pawn.new(:white)
+      @positions[6][i] = Pawn.new(:white, 6, i)
     end
   end
 
@@ -66,7 +67,6 @@ class Board
     else #If you move to empty square, just switch place of empty square and start square.
       @positions[fin_row][fin_col], @positions[row][col] = @positions[row][col], @positions[fin_row][fin_col]
     end
-    self
   end
   def castling(start, finish)
     row = finish[0]
@@ -75,25 +75,37 @@ class Board
       @positions[row][start[1]].has_moved = true
       @positions[row][7].has_moved = true
       #kingside castle
-      @positions[row][6] = @positions[row][4]
+      @positions[row][6] = @positions[row][4] # This moves king
       @positions[row][4] = @positions[row][5]
-      @positions[row][5] = @positions[row][7]
+      @positions[row][5] = @positions[row][7] # This moves rook
       @positions[row][7] = @positions[row][4]
+      @positions[row][5].row = row
+      @positions[row][5].col = 5
+      @positions[row][6].row = row
+      @positions[row][6].col = 6
       true
     elsif col == 2
       @positions[row][start[1]].has_moved = true
       @positions[row][0].has_moved = true
       #queenside castle
-      @positions[row][2] = @positions[row][4]
+      @positions[row][2] = @positions[row][4] # King
       @positions[row][4] = @positions[row][3]
-      @positions[row][3] = @positions[row][0]
+      @positions[row][3] = @positions[row][0] # Rook
       @positions[row][0] = @positions[row][1]
+      @positions[row][2].row = row
+      @positions[row][2].col = 2
+      @positions[row][3].row = row
+      @positions[row][3].col = 3
       true
     else
       false
     end
   end
-
+  def find_king(color)
+    @positions.flatten.select do |piece|
+      return piece if piece.class == King && piece.color == color
+    end
+  end
   def to_s
     puts
     puts 'ROW'

@@ -28,18 +28,14 @@ class Pawn < Piece
 
   def pawn_legal_captures(positions)
     opposite_color = color == :white ? :black : :white
+    i = color == :white ? -1 : 1
     legal_captures = []
-    if color == :white
-      left_capture_piece = positions[row - 1][col - 1]
-      right_capture_piece =  positions[row - 1][col + 1]
-      legal_captures << [row - 1, col - 1] if left_capture_piece.color == opposite_color
-      legal_captures << [row - 1, col + 1] if right_capture_piece.color == opposite_color
-    else
-      left_capture_piece = positions[row + 1][col - 1]
-      right_capture_piece =  positions[row + 1][col + 1]
-      legal_captures << [row + 1, col - 1] if left_capture_piece.color == opposite_color
-      legal_captures << [row + 1, col + 1] if right_capture_piece.color == opposite_color
-    end
+    left_capture = positions[row + i][col - 1]
+    right_capture =  positions[row + i][col + 1]
+    left_capture ||= Empty_Square.new
+    right_capture ||= Empty_Square.new
+    legal_captures << [row + i, col - 1] if left_capture.color == opposite_color
+    legal_captures << [row + i, col + 1] if right_capture.color == opposite_color
     legal_captures
   end
 end

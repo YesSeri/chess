@@ -6,6 +6,11 @@ class Piece
     @row = row
     @col = col
   end
+
+  def within_bounds?(row, col)
+    row.between?(0,7) && col.between?(0,7) ? true : false
+
+  end
   def all_possible_moves(positions)
     possible_moves = []
     piece.moveset.each do |move|
@@ -14,11 +19,12 @@ class Piece
       loop do
         temp_row += move[0]
         temp_col += move[1]
-        break if !temp_row.between?(0, 7) || !temp_col.between?(0, 7)
+        piece = positions[temp_row][temp_col]
+        break if !within_bounds?(temp_row, temp_col)
         # If a square has the same color piece as player he is blocked. 
-        if positions[temp_row][temp_col].color == color
+        if piece.color == color
           break
-        elsif positions[temp_row][temp_col].color == empty_square.color
+        elsif piece.color == empty_square.color
           possible_moves << [temp_row, temp_col]
         else
           possible_moves << [temp_row, temp_col]

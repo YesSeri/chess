@@ -1,4 +1,7 @@
+require 'pry'
+require 'pry-byebug'
 require_relative 'piece'
+require_relative 'empty_square'
 class Knight < Piece
   attr_accessor :moveset, :symbol
   def initialize(color, row, col)
@@ -15,15 +18,15 @@ class Knight < Piece
     ]
     @symbol = color == :white ? ' WKW ' : ' BKB '
   end
-  def all_possible_moves()
+  def all_possible_moves(positions)
     possible_moves = []
     moveset.each do |move|
-      move_row, move_col = row + move[0], col + move[1]
-      if Board.within_bounds?(move_row, move_col)
-        possible_moves << [(move_row, move_col)]
+      new_row = row + move[0]
+      new_col = col + move[1]
+      if within_bounds?(new_row, new_col)
+        possible_moves << [new_row, new_col]
       end
     end
     possible_moves
   end
 end
-
