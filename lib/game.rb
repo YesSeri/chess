@@ -47,20 +47,31 @@ def legit_move?(board, start, finish)
 end
 
 def get_moves
-  print "\nstart row"
-  row = gets.chomp
   p "start col"
   col = gets.chomp
-  p "finish row"
-  finish_row = gets.chomp
+  print "\nstart row"
+  row = gets.chomp
   p "finish col"
   finish_col = gets.chomp
+  p "finish row"
+  finish_row = gets.chomp
   translate_input(row, col, finish_row, finish_col)
 end
 def translate_input(row, col, finish_row, finish_col)
-  binding.pry
   return [row, col], [finish_row, finish_col] if [row, col, finish_row, finish_col].include?('save')
+  row = translate_row(row)
+  finish_row = translate_row(finish_row)
+  col = translate_col(col)
+  finish_col = translate_col(finish_col)
+
   return [row.to_i, col.to_i], [finish_row.to_i, finish_col.to_i] 
+end
+def translate_row(row)
+  8-row.to_i
+end
+def translate_col(col)
+  table = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+  table.index(col)
 end
 def save_game(board)
   File.open("../save/chess_save.yml", "w") {|f| f.write(board.to_yaml)}
