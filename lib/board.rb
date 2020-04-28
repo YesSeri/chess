@@ -117,21 +117,19 @@ class Board
     puts
     puts 'ROW'
     @positions.each_with_index do |row, i|
-      print "#{i}  "
+      print "#{8-i} #{i}  "
       row.each do |square|
         print square.symbol
       end
       puts
       puts
     end
-    print '    '
+    print '      '
     for i in 0..7
       print "#{i}    "
     end
-    puts 'COL'
+    print 'COL'
+    print "\n      A    B    C    D    E    F    G    H\n"
     print "#{current_player.color}'s turn"
   end
 end
-board = Board.new
-board.to_s
-board.legal_move_left?(board)

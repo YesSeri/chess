@@ -1,0 +1,567 @@
+--- !ruby/object:Board
+white_player: &1 !ruby/object:Player
+  color: :white
+black_player: !ruby/object:Player
+  color: :black
+current_player: *1
+white_turn: true
+positions:
+- - !ruby/object:Rook
+    color: :black
+    row: 0
+    col: 0
+    moveset:
+    - - 0
+      - 1
+    - - 0
+      - -1
+    - - 1
+      - 0
+    - - -1
+      - 0
+    symbol: " BRB "
+    has_moved: false
+  - !ruby/object:Knight
+    color: :black
+    row: 0
+    col: 1
+    moveset:
+    - - 2
+      - 1
+    - - 2
+      - -1
+    - - -2
+      - 1
+    - - -2
+      - -1
+    - - 1
+      - 2
+    - - 1
+      - -2
+    - - -1
+      - 2
+    - - -1
+      - -2
+    symbol: " BKB "
+  - !ruby/object:Bishop
+    color: :black
+    row: 0
+    col: 2
+    moveset:
+    - - 1
+      - 1
+    - - -1
+      - -1
+    - - 1
+      - -1
+    - - -1
+      - 1
+    symbol: " BBB "
+  - !ruby/object:Queen
+    color: :black
+    row: 0
+    col: 3
+    moveset:
+    - - -1
+      - -1
+    - - -1
+      - 0
+    - - -1
+      - 1
+    - - 0
+      - -1
+    - - 0
+      - 1
+    - - 1
+      - -1
+    - - 1
+      - 0
+    - - 1
+      - 1
+    symbol: " BQB "
+  - !ruby/object:King
+    color: :black
+    row: 0
+    col: 4
+    moveset:
+    - - -1
+      - -1
+    - - -1
+      - 0
+    - - -1
+      - 1
+    - - 0
+      - -1
+    - - 0
+      - 1
+    - - 1
+      - -1
+    - - 1
+      - 0
+    - - 1
+      - 1
+    symbol: " B$B "
+    has_moved: false
+  - !ruby/object:Bishop
+    color: :black
+    row: 0
+    col: 5
+    moveset:
+    - - 1
+      - 1
+    - - -1
+      - -1
+    - - 1
+      - -1
+    - - -1
+      - 1
+    symbol: " BBB "
+  - !ruby/object:Knight
+    color: :black
+    row: 0
+    col: 6
+    moveset:
+    - - 2
+      - 1
+    - - 2
+      - -1
+    - - -2
+      - 1
+    - - -2
+      - -1
+    - - 1
+      - 2
+    - - 1
+      - -2
+    - - -1
+      - 2
+    - - -1
+      - -2
+    symbol: " BKB "
+  - !ruby/object:Rook
+    color: :black
+    row: 0
+    col: 7
+    moveset:
+    - - 0
+      - 1
+    - - 0
+      - -1
+    - - 1
+      - 0
+    - - -1
+      - 0
+    symbol: " BRB "
+    has_moved: false
+- - &3 !ruby/object:Empty_Square
+    color: 
+    symbol: " ... "
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 1
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 2
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 3
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 4
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 5
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 6
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 1
+    col: 7
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+- - &2 !ruby/object:Empty_Square
+    color: 
+    symbol: " ... "
+  - *2
+  - *2
+  - *2
+  - *2
+  - *2
+  - *2
+  - *2
+- - !ruby/object:Pawn
+    color: :black
+    row: 3
+    col: 0
+    symbol: " BPB "
+    moveset:
+    - - 1
+      - 0
+    has_moved: true
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - *3
+  - *3
+  - *3
+  - *3
+  - *3
+  - *3
+  - *3
+- - &4 !ruby/object:Empty_Square
+    color: 
+    symbol: " ... "
+  - *4
+  - *4
+  - *4
+  - *4
+  - *4
+  - *4
+  - *4
+- - &5 !ruby/object:Empty_Square
+    color: 
+    symbol: " ... "
+  - *5
+  - !ruby/object:Knight
+    color: :white
+    row: 5
+    col: 2
+    moveset:
+    - - 2
+      - 1
+    - - 2
+      - -1
+    - - -2
+      - 1
+    - - -2
+      - -1
+    - - 1
+      - 2
+    - - 1
+      - -2
+    - - -1
+      - 2
+    - - -1
+      - -2
+    symbol: " WKW "
+  - *5
+  - *5
+  - *5
+  - *5
+  - *5
+- - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 0
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 1
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 2
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 3
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 4
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 5
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 6
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 7
+    symbol: " WPW "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
+- - !ruby/object:Rook
+    color: :white
+    row: 7
+    col: 0
+    moveset:
+    - - 0
+      - 1
+    - - 0
+      - -1
+    - - 1
+      - 0
+    - - -1
+      - 0
+    symbol: " WRW "
+    has_moved: false
+  - *5
+  - !ruby/object:Bishop
+    color: :white
+    row: 7
+    col: 2
+    moveset:
+    - - 1
+      - 1
+    - - -1
+      - -1
+    - - 1
+      - -1
+    - - -1
+      - 1
+    symbol: " WBW "
+  - !ruby/object:Queen
+    color: :white
+    row: 7
+    col: 3
+    moveset:
+    - - -1
+      - -1
+    - - -1
+      - 0
+    - - -1
+      - 1
+    - - 0
+      - -1
+    - - 0
+      - 1
+    - - 1
+      - -1
+    - - 1
+      - 0
+    - - 1
+      - 1
+    symbol: " WQW "
+  - !ruby/object:King
+    color: :white
+    row: 7
+    col: 4
+    moveset:
+    - - -1
+      - -1
+    - - -1
+      - 0
+    - - -1
+      - 1
+    - - 0
+      - -1
+    - - 0
+      - 1
+    - - 1
+      - -1
+    - - 1
+      - 0
+    - - 1
+      - 1
+    symbol: " W$W "
+    has_moved: false
+  - !ruby/object:Bishop
+    color: :white
+    row: 7
+    col: 5
+    moveset:
+    - - 1
+      - 1
+    - - -1
+      - -1
+    - - 1
+      - -1
+    - - -1
+      - 1
+    symbol: " WBW "
+  - !ruby/object:Knight
+    color: :white
+    row: 7
+    col: 6
+    moveset:
+    - - 2
+      - 1
+    - - 2
+      - -1
+    - - -2
+      - 1
+    - - -2
+      - -1
+    - - 1
+      - 2
+    - - 1
+      - -2
+    - - -1
+      - 2
+    - - -1
+      - -2
+    symbol: " WKW "
+  - !ruby/object:Rook
+    color: :white
+    row: 7
+    col: 7
+    moveset:
+    - - 0
+      - 1
+    - - 0
+      - -1
+    - - 1
+      - 0
+    - - -1
+      - 0
+    symbol: " WRW "
+    has_moved: false
+captured_pieces: []
