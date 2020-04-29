@@ -23,7 +23,7 @@ module Legality
   #Returns all legal moves, and stops when blocked.
     def start_square_legal?(board, start)
     start_piece = board.positions[start[0]][start[1]]
-    return false if start_piece.color != board.current_player.color
+    return false if start_piece.color != board.current_player
     true
   end
 end

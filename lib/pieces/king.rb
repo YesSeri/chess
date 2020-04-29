@@ -7,7 +7,7 @@ class King < Piece
       [-1, -1], [-1, 0], [-1, 1],
       [ 0, -1],          [ 0, 1],
       [ 1, -1], [ 1, 0], [ 1, 1]]
-    @symbol = color == :white ? ' ♔ ' : ' ♚ '
+    @symbol = color == :white ? ' ♚ ' : ' ♔ '
     @has_moved = false
   end
   def all_possible_moves(positions)

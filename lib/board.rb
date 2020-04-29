@@ -10,8 +10,8 @@ class Board
   attr_accessor :current_player, :positions, :white_player, :black_player, :captured_pieces
 
   def initialize
-    @white_player = Player.new(:white)
-    @black_player = Player.new(:black)
+    @white_player = :white
+    @black_player = :black
     @current_player = @white_player
     @white_turn = true
     @positions = Array.new(8) { Array.new(8, Empty_Square.new) }
@@ -157,8 +157,11 @@ class Board
       puts
     end
     print "   A  B  C  D  E  F  G  H\n"
-    print 'Captured pieces: '
     white = @captured_pieces.select { |p| p.color == :white }
     black = @captured_pieces.select { |p| p.color == :black }
+    puts unless white == []
+    white.each { |p| print "#{p.symbol} " }
+    puts unless black == []
+    black.each { |p| print "#{p.symbol} " }
   end
 end

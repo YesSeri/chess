@@ -16,7 +16,7 @@ class Knight < Piece
       [-1, 2],
       [-1,-2],
     ]
-    @symbol = color == :white ? ' ♘ ' : ' ♞ '
+    @symbol = color == :white ? ' ♞ ' : ' ♘ '
   end
   def all_possible_moves(positions)
     possible_moves = []

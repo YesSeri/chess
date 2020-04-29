@@ -7,6 +7,6 @@ class Queen < Piece
       [-1, -1], [-1, 0], [-1, 1],
       [ 0, -1],          [ 0, 1],
       [ 1, -1], [ 1, 0], [ 1, 1]]
-    @symbol = color == :white ? ' ♕ ' : ' ♛ '
+    @symbol = color == :white ? ' ♛ ' : ' ♕ '
   end
 end

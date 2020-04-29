@@ -6,7 +6,7 @@ class Pawn < Piece
   attr_accessor :symbol, :has_moved
   def initialize(color, row, col)
     super(color, row, col)
-    @symbol = color == :white ? " ♙ " : ' ♟ '
+    @symbol = color == :white ? " ♟ " : ' ♙ '
     @moveset = color == :white ? [[-1, 0]] : [[1, 0]]
     @has_moved = false
     @first_moveset = color == :white ? [[-1, 0], [-2, 0]] : [[1, 0], [2, -0]]
@@ -27,7 +27,7 @@ class Pawn < Piece
   end
   def Pawn.en_passant_move_square(pawn)
     return if @@en_passant_pawn == nil
-    [@@en_passant_pawn.row + pawn.moveset[0][0], @@en_passant_pawn.row]
+    [@@en_passant_pawn.row + pawn.moveset[0][0], @@en_passant_pawn.col]
   end
   def all_possible_moves(positions)
     possible_moves = pawn_legal_captures(positions)
@@ -59,8 +59,7 @@ class Pawn < Piece
 
     if left_square == @@en_passant_pawn
       [row + moveset[0][0], col - 1]
-    end
-    if right_square == @@en_passant_pawn
+    elsif right_square == @@en_passant_pawn
       [row + moveset[0][0], col + 1]
     end
   end

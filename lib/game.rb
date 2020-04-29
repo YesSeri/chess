@@ -17,7 +17,7 @@ end
 def game_loop(board)
   loop do
     board.to_s
-    string = board.stalemate_or_checkmate(board)
+    string = 'continue' #board.stalemate_or_checkmate(board)
 
     unless string == 'continue'
       puts string
@@ -50,6 +50,7 @@ def legit_move?(board, start, finish)
 end
 
 def get_moves
+  puts
   puts "Start"
   start = gets.chomp
   puts "Finish"

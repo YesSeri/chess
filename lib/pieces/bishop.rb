@@ -10,7 +10,7 @@ class Bishop < Piece
       [1,  -1],
       [-1,  1]
     ]
-    @symbol = color == :white ? " ♗ " : ' ♝ '
+    @symbol = color == :white ? " ♝ " : ' ♗ '
   end
 end
 b = Bishop.new(:white, 4, 4)
