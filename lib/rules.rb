@@ -1,3 +1,5 @@
+require 'pry'
+require 'pry-byebug'
 module Rules
   def in_check?(board)
     king = board.find_king(board.current_player.color)
@@ -20,7 +22,7 @@ module Rules
   end
   def legal_move_left?(board)
     board.positions.flatten.select { |p| p.class != Empty_Square && p.color == current_player.color }.each do |piece|
-      piece.all_possible_moves(board.positions).each do |move|
+      piece.all_possible_moves(board.positions).reject { |p| p.nil? }.each do |move|
         temp_board = Marshal.load(Marshal.dump(board))
         temp_board.set_new_position([piece.row, piece.col], move)
         return true if !in_check?(temp_board)

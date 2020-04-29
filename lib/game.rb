@@ -26,9 +26,10 @@ def game_loop(board)
     start_square, finish_square = [], []
     loop do
       start_square, finish_square = get_moves
-      save_game(board) if [start_square, finish_square].flatten.include?('save')
+
+      save_game(board) if [start_square].include?('save')
       break if legit_move?(board, start_square, finish_square)
-      print 'illegal move, try again'
+      print 'Illegal move, try again'
     end
     puts
     board.set_new_position(start_square, finish_square)
@@ -36,29 +37,32 @@ def game_loop(board)
   end
 end
 def legit_move?(board, start, finish)
-  if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
-  temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
-  temp_board.set_new_position(start, finish)
-    if !in_check?(temp_board)
-      return true
+  if[start, finish].flatten.all? {|i| i.between?(0, 7) }
+    if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
+      temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
+      temp_board.set_new_position(start, finish)
+      if !in_check?(temp_board)
+        return true
+      end
     end
   end
   false
 end
 
 def get_moves
-  p "start col"
-  col = gets.chomp
-  print "\nstart row"
-  row = gets.chomp
-  p "finish col"
-  finish_col = gets.chomp
-  p "finish row"
-  finish_row = gets.chomp
-  translate_input(row, col, finish_row, finish_col)
+  puts "Start"
+  start = gets.chomp
+  puts "Finish"
+  finish = gets.chomp
+  translate_input(start, finish)
 end
-def translate_input(row, col, finish_row, finish_col)
-  return [row, col], [finish_row, finish_col] if [row, col, finish_row, finish_col].include?('save')
+def translate_input(start, finish)
+
+  return start, finish if [start, finish].include?('save')
+  col = start[0]
+  row = start[1]
+  finish_col = finish[0]
+  finish_row = finish[1]
   row = translate_row(row)
   finish_row = translate_row(finish_row)
   col = translate_col(col)
@@ -71,7 +75,7 @@ def translate_row(row)
 end
 def translate_col(col)
   table = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-  table.index(col)
+  table.index(col.downcase)
 end
 def save_game(board)
   File.open("../save/chess_save.yml", "w") {|f| f.write(board.to_yaml)}

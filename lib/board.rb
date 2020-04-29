@@ -1,5 +1,6 @@
 require 'pry'
 require 'pry-byebug'
+require 'colorize'
 require_relative 'pieces/pieces.rb'
 require_relative 'player'
 require_relative 'legality'
@@ -59,6 +60,14 @@ class Board
     if [Pawn, Rook, King].include?(piece.class)
       @positions[row][col].has_moved = true
     end
+
+    if piece.class == Pawn
+      return if en_passant_capture(start, finish)
+      set_en_passant_pawn(start, finish) 
+    else
+      Pawn.set_en_passant_pawn(nil)
+    end
+    
     if !@positions[fin_row][fin_col].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
       @captured_pieces << @positions[fin_row][fin_col]
       @positions[fin_row][fin_col] = @positions[row][col]
@@ -70,11 +79,34 @@ class Board
 
     else #If you move to empty square, just switch place of empty square and start square.
       @positions[fin_row][fin_col], @positions[row][col] = @positions[row][col], @positions[fin_row][fin_col]
-
       @positions[fin_row][fin_col].row = fin_row
       @positions[fin_row][fin_col].col = fin_col
     end
   end
+  def en_passant_capture(start, fin)
+    if fin == Pawn.en_passant_move_square(@positions[start[0]][start[1]])
+      @captured_pieces << @positions[Pawn.get_en_passant_pawn.row][Pawn.get_en_passant_pawn.col] 
+      @positions[Pawn.get_en_passant_pawn.row][Pawn.get_en_passant_pawn.col] = Empty_Square.new
+      move_square = Pawn.en_passant_move_square(@positions[start[0]][start[1]])
+      @positions[move_square[0]][move_square[1]], @positions[start[0]][start[1]] = @positions[start[0]][start[1]], @positions[move_square[0]][move_square[1]] 
+      true
+    else
+      false
+    end
+  end
+
+  def set_en_passant_pawn(start, finish)
+    row = start[0]
+    finish_row = finish[0]
+    if row - finish_row == 2 || row - finish_row == -2
+      Pawn.set_en_passant_pawn(@positions[row][start[1]])
+      return true
+    end
+    if Pawn.get_en_passant_pawn != nil
+      Pawn.set_en_passant_pawn(nil) if Pawn.get_en_passant_pawn.color == @current_player.color
+    end
+  end
+
   def castling(start, finish)
     row = finish[0]
     col = finish[1]
@@ -115,21 +147,18 @@ class Board
   end
   def to_s
     puts
-    puts 'ROW'
     @positions.each_with_index do |row, i|
-      print "#{8-i} #{i}  "
+      print "#{8-i} "
+      color = :yellow if i.even?
       row.each do |square|
-        print square.symbol
+        color = color == :yellow ? :light_blue : :yellow
+        print "#{square.symbol}".colorize(:background => color)
       end
       puts
-      puts
     end
-    print '      '
-    for i in 0..7
-      print "#{i}    "
-    end
-    print 'COL'
-    print "\n      A    B    C    D    E    F    G    H\n"
-    print "#{current_player.color}'s turn"
+    print "   A  B  C  D  E  F  G  H\n"
+    print 'Captured pieces: '
+    white = @captured_pieces.select { |p| p.color == :white }
+    black = @captured_pieces.select { |p| p.color == :black }
   end
 end
