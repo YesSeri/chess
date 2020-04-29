@@ -6,7 +6,7 @@ require_relative 'pieces/rook'
 require_relative 'rules'
 include Legality
 def start_game
-  print 'Do you want to load board?'
+  instructions 
   if gets.chomp[0].upcase == 'Y'
     board = load_game
   else
@@ -37,13 +37,11 @@ def game_loop(board)
   end
 end
 def legit_move?(board, start, finish)
-  if[start, finish].flatten.all? {|i| i.between?(0, 7) }
-    if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
-      temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
-      temp_board.set_new_position(start, finish)
-      if !in_check?(temp_board)
-        return true
-      end
+  if board.legal_move?(board, start, finish) #This is a module dedicated to finding legal moves
+    temp_board = Marshal.load( Marshal.dump(board)) # Only way to deep copy class.Clone only deep copies on level, not nested arrays.
+    temp_board.set_new_position(start, finish)
+    if !in_check?(temp_board)
+      return true
     end
   end
   false
@@ -51,32 +49,37 @@ end
 
 def get_moves
   puts
-  puts "Start"
+  puts "From"
   start = gets.chomp
-  puts "Finish"
+  puts "To"
   finish = gets.chomp
   translate_input(start, finish)
 end
 def translate_input(start, finish)
 
   return start, finish if [start, finish].include?('save')
-  col = start[0]
-  row = start[1]
-  finish_col = finish[0]
-  finish_row = finish[1]
-  row = translate_row(row)
-  finish_row = translate_row(finish_row)
-  col = translate_col(col)
-  finish_col = translate_col(finish_col)
-
+  
+  col = translate_col(start[0])
+  row = translate_row(start[1])
+  finish_col = translate_col(finish[0])
+  finish_row = translate_row(finish[1])
   return [row.to_i, col.to_i], [finish_row.to_i, finish_col.to_i] 
 end
 def translate_row(row)
   8-row.to_i
 end
 def translate_col(col)
-  table = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-  table.index(col.downcase)
+  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].index(col.downcase)
+end
+def instructions
+  print '
+ ____  _   _  _____ ____  ____
+/   _\/ \ / \/  __// ___\/ ___\
+|  /  | |_| ||  \  |    \|    \
+|  \__| | | ||  /_ \___ |\___ |
+\____/\_/ \_/\____\\\____/\____/'
+
+  print "\n\nEnter yes if you want to load a previous game. If you ever wish to save your game enter save."
 end
 def save_game(board)
   File.open("../save/chess_save.yml", "w") {|f| f.write(board.to_yaml)}

@@ -1,9 +1,7 @@
 --- !ruby/object:Board
-white_player: !ruby/object:Player
-  color: :white
-black_player: &1 !ruby/object:Player
-  color: :black
-current_player: *1
+white_player: :white
+black_player: :black
+current_player: :white
 white_turn: true
 positions:
 - - !ruby/object:Rook
@@ -153,37 +151,11 @@ positions:
       - 0
     symbol: " ♖ "
     has_moved: false
-- - &3 !ruby/object:Empty_Square
+- - &1 !ruby/object:Empty_Square
     color: 
     symbol: "   "
-  - !ruby/object:Pawn
-    color: :black
-    row: 1
-    col: 1
-    symbol: " ♙ "
-    moveset:
-    - - 1
-      - 0
-    has_moved: false
-    first_moveset:
-    - - 1
-      - 0
-    - - 2
-      - 0
-  - !ruby/object:Pawn
-    color: :black
-    row: 1
-    col: 2
-    symbol: " ♙ "
-    moveset:
-    - - 1
-      - 0
-    has_moved: false
-    first_moveset:
-    - - 1
-      - 0
-    - - 2
-      - 0
+  - *1
+  - *1
   - !ruby/object:Pawn
     color: :black
     row: 1
@@ -278,13 +250,82 @@ positions:
       - 0
     - - 2
       - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 3
+    col: 1
+    symbol: " ♙ "
+    moveset:
+    - - 1
+      - 0
+    has_moved: true
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - !ruby/object:Pawn
+    color: :black
+    row: 3
+    col: 2
+    symbol: " ♙ "
+    moveset:
+    - - 1
+      - 0
+    has_moved: true
+    first_moveset:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  - *1
+  - *1
+  - *1
+  - *1
+  - *1
+- - &3 !ruby/object:Empty_Square
+    color: 
+    symbol: "   "
   - *3
   - *3
   - *3
+  - *3
+  - *3
+  - *3
+  - *3
+- - &4 !ruby/object:Empty_Square
+    color: 
+    symbol: "   "
+  - *4
+  - *4
+  - *4
+  - *4
+  - !ruby/object:Knight
+    color: :white
+    row: 5
+    col: 5
+    moveset:
+    - - 2
+      - 1
+    - - 2
+      - -1
+    - - -2
+      - 1
+    - - -2
+      - -1
+    - - 1
+      - 2
+    - - 1
+      - -2
+    - - -1
+      - 2
+    - - -1
+      - -2
+    symbol: " ♞ "
   - !ruby/object:Pawn
     color: :white
-    row: 3
-    col: 4
+    row: 5
+    col: 6
     symbol: " ♟ "
     moveset:
     - - -1
@@ -295,29 +336,7 @@ positions:
       - 0
     - - -2
       - 0
-  - *3
-  - *3
-  - *3
-- - &4 !ruby/object:Empty_Square
-    color: 
-    symbol: "   "
   - *4
-  - *4
-  - *4
-  - *3
-  - *4
-  - *4
-  - *4
-- - &5 !ruby/object:Empty_Square
-    color: 
-    symbol: "   "
-  - *5
-  - *5
-  - *5
-  - *5
-  - *5
-  - *5
-  - *5
 - - !ruby/object:Pawn
     color: :white
     row: 6
@@ -374,7 +393,20 @@ positions:
       - 0
     - - -2
       - 0
-  - *4
+  - !ruby/object:Pawn
+    color: :white
+    row: 6
+    col: 4
+    symbol: " ♟ "
+    moveset:
+    - - -1
+      - 0
+    has_moved: false
+    first_moveset:
+    - - -1
+      - 0
+    - - -2
+      - 0
   - !ruby/object:Pawn
     color: :white
     row: 6
@@ -389,20 +421,20 @@ positions:
       - 0
     - - -2
       - 0
-  - !ruby/object:Pawn
+  - !ruby/object:Bishop
     color: :white
     row: 6
     col: 6
-    symbol: " ♟ "
     moveset:
+    - - 1
+      - 1
     - - -1
-      - 0
-    has_moved: false
-    first_moveset:
+      - -1
+    - - 1
+      - -1
     - - -1
-      - 0
-    - - -2
-      - 0
+      - 1
+    symbol: " ♝ "
   - !ruby/object:Pawn
     color: :white
     row: 6
@@ -513,42 +545,8 @@ positions:
       - 1
     symbol: " ♚ "
     has_moved: false
-  - !ruby/object:Bishop
-    color: :white
-    row: 7
-    col: 5
-    moveset:
-    - - 1
-      - 1
-    - - -1
-      - -1
-    - - 1
-      - -1
-    - - -1
-      - 1
-    symbol: " ♝ "
-  - !ruby/object:Knight
-    color: :white
-    row: 7
-    col: 6
-    moveset:
-    - - 2
-      - 1
-    - - 2
-      - -1
-    - - -2
-      - 1
-    - - -2
-      - -1
-    - - 1
-      - 2
-    - - 1
-      - -2
-    - - -1
-      - 2
-    - - -1
-      - -2
-    symbol: " ♞ "
+  - *4
+  - *4
   - !ruby/object:Rook
     color: :white
     row: 7

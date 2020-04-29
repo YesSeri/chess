@@ -2,7 +2,6 @@ require 'pry'
 require 'pry-byebug'
 require 'colorize'
 require_relative 'pieces/pieces.rb'
-require_relative 'player'
 require_relative 'legality'
 require_relative 'rules'
 include Rules
@@ -69,13 +68,7 @@ class Board
     end
     
     if !@positions[fin_row][fin_col].color.nil? #If piece is capture. (Moving to same color as self is forbidden in legal move check.)
-      @captured_pieces << @positions[fin_row][fin_col]
-      @positions[fin_row][fin_col] = @positions[row][col]
-      @positions[row][col] = Empty_Square.new
-
-      @positions[fin_row][fin_col].row = fin_row
-      @positions[fin_row][fin_col].col = fin_col
-
+      capture(row, col, fin_row, fin_col)
 
     else #If you move to empty square, just switch place of empty square and start square.
       @positions[fin_row][fin_col], @positions[row][col] = @positions[row][col], @positions[fin_row][fin_col]
@@ -94,6 +87,13 @@ class Board
       false
     end
   end
+  def capture(row, col, fin_row, fin_col)
+    @captured_pieces << @positions[fin_row][fin_col]
+    @positions[fin_row][fin_col] = @positions[row][col]
+    @positions[row][col] = Empty_Square.new
+    @positions[fin_row][fin_col].row = fin_row
+    @positions[fin_row][fin_col].col = fin_col
+  end
 
   def set_en_passant_pawn(start, finish)
     row = start[0]
@@ -110,35 +110,27 @@ class Board
   def castling(start, finish)
     row = finish[0]
     col = finish[1]
-    if col == 6
+
+    if col == 6 #kingside castle
       @positions[row][start[1]].has_moved = true
       @positions[row][7].has_moved = true
-      #kingside castle
-      @positions[row][6] = @positions[row][4] # This moves king
-      @positions[row][4] = @positions[row][5]
-      @positions[row][5] = @positions[row][7] # This moves rook
-      @positions[row][7] = @positions[row][4]
-      @positions[row][5].row = row
-      @positions[row][5].col = 5
-      @positions[row][6].row = row
-      @positions[row][6].col = 6
+      switch(row, 6, 4)
+      switch(row, 5, 7)
       true
-    elsif col == 2
+    elsif col == 2 #queenside castle
       @positions[row][start[1]].has_moved = true
       @positions[row][0].has_moved = true
-      #queenside castle
-      @positions[row][2] = @positions[row][4] # King
-      @positions[row][4] = @positions[row][3]
-      @positions[row][3] = @positions[row][0] # Rook
-      @positions[row][0] = @positions[row][1]
-      @positions[row][2].row = row
-      @positions[row][2].col = 2
-      @positions[row][3].row = row
-      @positions[row][3].col = 3
+      switch(row, 2, 4)
+      switch(row, 3, 0)
       true
     else
       false
     end
+  end
+  def switch(row, new, old)
+      @positions[row][new], @positions[row][old] = @positions[row][old], @positions[row][new] # This moves king
+      @positions[row][new].row = row
+      @positions[row][new].col = new
   end
   def find_king(color)
     @positions.flatten.each do |piece|
@@ -163,5 +155,6 @@ class Board
     white.each { |p| print "#{p.symbol} " }
     puts unless black == []
     black.each { |p| print "#{p.symbol} " }
+    puts "#{@current_player.capitalize}'s turn "
   end
 end
