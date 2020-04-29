@@ -17,7 +17,7 @@ end
 def game_loop(board)
   loop do
     board.to_s
-    string = 'continue' #board.stalemate_or_checkmate(board)
+    string = board.stalemate_or_checkmate(board)
 
     unless string == 'continue'
       puts string

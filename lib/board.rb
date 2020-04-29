@@ -103,7 +103,7 @@ class Board
       return true
     end
     if Pawn.get_en_passant_pawn != nil
-      Pawn.set_en_passant_pawn(nil) if Pawn.get_en_passant_pawn.color == @current_player.color
+      Pawn.set_en_passant_pawn(nil) if Pawn.get_en_passant_pawn.color == @current_player
     end
   end
 
